@@ -12,26 +12,29 @@ Examples:
 
 1. general case: compare two submission from two kernels
 
-python run_review.py -u <username> -k <apikey> --batch_limit 0 -b 3.16.0-33.44 -r 3.16.0-34.45 -y-pass-150320.html
-python run_review.py -u <username> -k <apikey> --batch_limit 0 -b 3.16.0-33.44 -r 3.16.0-34.45 -y pass-150320.html
-note the first example with a suffix beginning with a dash to access
-http://people.canonical.com/~hwcert/sru-testing/utopic/3.16.0-33.44/utopic-proposed-pass-150320.html
+    python run_review.py -u <username> -k <apikey> --batch_limit 0 -b 3.16.0-33.44 -r 3.16.0-34.45 -y-pass-150320.html
+    python run_review.py -u <username> -k <apikey> --batch_limit 0 -b 3.16.0-33.44 -r 3.16.0-34.45 -y pass-150320.html
+
+Note the first example with a suffix beginning with a dash to access
+    http://people.canonical.com/~hwcert/sru-testing/utopic/3.16.0-33.44/utopic-proposed-pass-150320.html
 and the second will give
-http://people.canonical.com/~hwcert/sru-testing/utopic/3.16.0-33.44/utopic-proposedpass-150320.html
+    http://people.canonical.com/~hwcert/sru-testing/utopic/3.16.0-33.44/utopic-proposedpass-150320.html
 
 
 2. (often use this) compare the latest submission against the golden submission
 
 compare utopic 3.16.0-36.48 with golden submissions
-python run_review.py -r 3.16.0-36.48 -u <username> -k <apikey> --batch_limit 0
+    python run_review.py -r 3.16.0-36.48 -u <username> -k <apikey> --batch_limit 0
 
-python run_review.py -r 3.13.0-51.84~precise1 -u <username> -k <apikey> --batch_limit 0
-python run_review.py -r 3.13.0-51.84 -u <username> -k <apikey> --batch_limit 0
-python run_review.py -r 3.13.0-51.84 -u <username> -k <apikey> --batch_limit 0 --oem
+    python run_review.py -r 3.13.0-51.84~precise1 -u <username> -k <apikey> --batch_limit 0
+    python run_review.py -r 3.13.0-51.84 -u <username> -k <apikey> --batch_limit 0
+    python run_review.py -r 3.13.0-51.84 -u <username> -k <apikey> --batch_limit 0 --oem
+    ./run_review.py -r 3.19.0-76.84~14.04.1 -u <username> -k <apikey> --batch_limit 0 --oem -v
+    ./run_review.py -r 3.19.0-76.84~14.04.1 -u <username> -k <apikey> --batch_limit 0 --oem -vv
 
-3. compare two submissions with the same given CID.
+3. compare two submissions with the same given CID. (single comparison mode)
 
-./run_review.py -s 112867 113076 -c 201508-18805 -u $API_USER -k $API_KEY --batch_limit 0
+    ./run_review.py -s 112867 113076 -c 201508-18805 -u $API_USER -k $API_KEY --batch_limit 0
 
 ===============================
 HOW TO USE FALSE ALARM FILTER??
