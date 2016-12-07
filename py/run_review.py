@@ -105,6 +105,18 @@ import alarmtype
 ARGS = None
 LOGGER = logging.getLogger('sru_review_tool')
 
+
+class colors:
+    HEADER = '\033[95m'
+    OKBLUE = '\033[94m'
+    OKGREEN = '\033[92m'
+    WARNING = '\033[93m'
+    FAIL = '\033[91m'
+    ENDC = '\033[0m'
+    BOLD = '\033[1m'
+    UNDERLINE = '\033[4m'
+
+
 class ReviewReport:
 
     def __init__(self, url_submission_base, url_submission_review, distkernel, oem=False, single=False):
@@ -179,7 +191,7 @@ class ReviewReport:
         @return None
         """
         print("============================================================================")
-        print("Reviewing %s" % (cid))
+        print(("Reviewing " + colors.HEADER + "%s" + colors.ENDC) % (cid))
         print("Base sumission: %s, Review target: %s" % (sub_base, sub_review))
         print("============================================================================")
         apidata_base = get_apidata_from_c3(cid, sub_base)
@@ -195,10 +207,10 @@ class ReviewReport:
             LOGGER.debug("no regression was observed. - %s" % cid)
         else:
             self.flag_review_status = False
-            print "-------------------------------------------------"
-            print "potential regression was observed. - %s" % cid
-            print "-------------------------------------------------"
-            print ""
+            print("-------------------------------------------------")
+            print((colors.WARNING + "Potential regression was observed. - " + colors.ENDC + "%s") % cid)
+            print("-------------------------------------------------")
+            print("")
         print("============================================================================")
         print("Reviewing %s - DONE." % (cid))
         print("============================================================================")
@@ -214,14 +226,14 @@ class ReviewReport:
         decide whether continuing the flow or not. Or suggesting users to
         manually check the tests.
         """
-        print ""
-        print "=================================================="
-        print "OVERALL REVIEW STATUS SUMMARY"
+        print("")
+        print("==================================================")
+        print("OVERALL REVIEW STATUS SUMMARY")
         if self.flag_review_status:
-            print("Review completed. No regression was observed.")
+            print(colors.OKGREEN + "Review completed. No regression was observed." + colors.ENDC)
         else:
-            print("Review completed. There may be regressions. Review manually again.")
-        print "=================================================="
+            print(colors.FAIL + "Review completed. There may be regressions. Review manually again." + colors.ENDC)
+        print("==================================================")
 
 
 ############################# C3 API #####################################
