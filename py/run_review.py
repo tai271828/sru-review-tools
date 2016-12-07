@@ -177,27 +177,33 @@ class ReviewReport:
             LOGGER.debug("no regression was observed. - %s" % cid)
         else:
             self.flag_review_status = False
-            print "==============================================="
+            print "-------------------------------------------------"
             print "potential regression was observed. - %s" % cid
-            print "==============================================="
+            print "-------------------------------------------------"
             print ""
         print("============================================================================")
         print("Reviewing %s - DONE." % (cid))
         print("============================================================================")
+        print("")
+        print("")
+        print("")
 
     def summarize(self):
         """
-        after reviewing, check the review status,
-        summarize the flow status and
-        decide whether continuing the flow or not.
+        Summarizing overall review status.
+
+        After reviewing, check the review status, summarize the flow status and
+        decide whether continuing the flow or not. Or suggesting users to
+        manually check the tests.
         """
         print ""
-        print "==============================================="
+        print "=================================================="
+        print "OVERALL REVIEW STATUS SUMMARY"
         if self.flag_review_status:
-            print "review complete! no regression was observed."
+            print("Review completed. No regression was observed.")
         else:
-            print "there may be regressions. Review manually again."
-        print "==============================================="
+            print("Review completed. There may be regressions. Review manually again.")
+        print "=================================================="
 
 
 ############################# C3 API #####################################
@@ -235,7 +241,7 @@ def compare_two_api_submission(apidata_base, apidata_review, cid=None):
     entries_potential_regression = []
     # data validation: make sure the total number of testing entries is the same.
     if apidata_base['meta']['total_count'] != apidata_review['meta']['total_count']:
-        print "test_item_no_total is not the same!"
+        LOGGER.warning("Toal test job number: NOT the same.")
         flag_compare_result = False
 
     # submission comparison: compare the testing entry status and details
@@ -254,7 +260,7 @@ def compare_two_api_submission(apidata_base, apidata_review, cid=None):
                     ##############################################################
                     # This print is the testing entry name you what to know.
                     ##############################################################
-                    print("content is diffrent and the current test FAIL: %s %s --> %s" % (test_name, test_status, tib['status']))
+                    LOGGER.warning("The content is diffrent.\n\t%s %s --> %s" % (test_name, test_status, tib['status']))
                     entries_potential_regression.append(test_name)
                     #print "%s is not the same" % test_name
                     ##############################################################
@@ -264,12 +270,12 @@ def compare_two_api_submission(apidata_base, apidata_review, cid=None):
                     # review code snippet.
                     ##############################################################
                     if test_name == 'graphics/screenshot_opencv_validation':
-                        print "======= highlight opencv failures, please take a look ======="
-                        print "============= base test ==============="
-                        print tib['comment']
-                        print "============= waiting to review ======="
-                        print tir['comment']
-                        print ""
+                        print("------- Highlight opencv failures -------")
+                        print("------------- Base Test ---------------")
+                        print(tib['comment'])
+                        print("------------- Waiting to Review -------")
+                        print(tir['comment'])
+                        print("")
                         entries_potential_regression.append(alarmtype.OPCV_HIGH_1)
                     if test_name == 'suspend/suspend-single-log-check':
                         # replace the time stamps to avoid noises
@@ -282,15 +288,15 @@ def compare_two_api_submission(apidata_base, apidata_review, cid=None):
                         list_r.sort()
                         # highlight fwts caused failures
                         if list_b != list_r:
-                            print "----- highlight fwts caused failures, please take a look -----"
-                            print "============= base result ============"
-                            print tib['comment']
-                            print "============= review candidate ======="
-                            print tir['comment']
-                            print ""
+                            print("----- Highlight FWTS caused failures. -----")
+                            print("------------- Base Result ------------")
+                            print(" %s" % tib['comment'])
+                            print("------------- Review Candidate -------")
+                            print(" %s" % tir['comment'])
+                            print("")
                             entries_potential_regression.append(alarmtype.FWTS_HIGH_1)
                         else:
-                            print "Identical fwts error detected and supressed"
+                            LOGGER.warning("Identical fwts error detected and supressed.")
                             entries_potential_regression.append(alarmtype.FWTS_HIGH_2)
                     if test_name == 'memory/info':
                         # memory failure and often to show little different details
@@ -299,12 +305,12 @@ def compare_two_api_submission(apidata_base, apidata_review, cid=None):
                         # Meminfo reports 572.81MiB less than lshw...
                         # This may give too many false alarms so I want to
                         # have a prompt message
-                        print "memory/info comment comparison failed but please note the difference may be little."
+                        LOGGER.warning("memory/info comment comparison failed but please note the difference may be little.")
                         entries_potential_regression.append(alarmtype.MEMORY_1)
 
                 if tib['status'] != test_status:
                     # we want to compare the status of two submissions
-                    print "test status changes : %s from %s to %s" % (test_name, tib['status'], tir['status'])
+                    LOGGER.warning("test status changes : %s %s --> %s" % (test_name, tib['status'], tir['status']))
                     flag_compare_result = False
                     entries_potential_regression.append(alarmtype.STATUS_1)
 
@@ -344,6 +350,11 @@ def get_cid_to_submission_from_rpt(url):
 
 
 def get_cid_to_submission_from_golden(distkernel, oem=False):
+    """
+    Return CID-<submission number> dict from the golden DB.
+
+    This is a special case from get_cid_to_submission_from_rpt.
+    """
     dict_rpt = {}
     cs = None
     with open("../data/golden-submission.txt", "r") as data_file:
@@ -362,7 +373,7 @@ def get_cid_to_submission_from_golden(distkernel, oem=False):
         try:
             cs = json_contents[distkernel]
         except:
-            LOGGER.critical("No such kernel available: %s" % distkernel)
+            LOGGER.critical("No such kernel available in golden DB: %s" % distkernel)
             sys.exit(1)
     for cid in cs:
         # TODO:
