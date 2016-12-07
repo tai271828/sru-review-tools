@@ -314,11 +314,16 @@ def compare_two_api_submission(apidata_base, apidata_review, cid=None):
 
 def get_cid_to_submission_from_rpt(url):
     """
-    get a association table cid v.s. submission
-    hold the data by self.dict_rpt
+    Get a dict cid v.s. submission.
 
+    This function will try to access the submission report via the rul, and
+    then hold the data by self.dict_rpt. The dict_rpt only holds the data with
+    the none-empty submission cells of the table.
+
+    @param url:
+    http://xxx/trusty/3.19.0-75.83~14.04.1/trusty-3.19-oem-test-proposed.html
     @param dict_rpt: dict_rpt[cid] = submission
-    @type dict_rpt: dict_rpt[cid] = submission, cid and submission are integers.
+    @type dict_rpt: dict_rpt[cid] = submission, cid and submission are strings.
     """
     dict_rpt = {}
     parser = etree.HTMLParser()
