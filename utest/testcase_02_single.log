@@ -1,0 +1,11 @@
+reviewing 201508-18805, base sumission: 112867, review target: 113076
+memory/info
+memory/info comment comparison failed but please note the difference may be little.
+test status changes : memory/info from pass to fail
+suspend/suspend-single-log-check
+Identical fwts error detected and supressed
+wireless/monitor_wireless_connection_udp
+===============================================
+potential regression was observed. - 201508-18805
+===============================================
+

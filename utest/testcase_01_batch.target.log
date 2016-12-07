@@ -1,0 +1,226 @@
+No test result available for 201507-18793
+No test result available for 201511-20299
+No test result available for 201506-18560
+No test result available for 201506-18563
+No test result available for 201405-15064
+No test result available for 201405-15065
+No test result available for 201507-18603
+No test result available for 201507-18607
+No test result available for 201508-18812
+No test result available for 201601-20489
+No test result available for 201507-18786
+No test result available for 201509-19622
+No test result available for 201508-19026
+No test result available for 201506-18559
+No test result available for 201508-19021
+No test result available for 201507-18697
+No test result available for 201511-19983
+No test result available for 201506-18536
+No test result available for 201512-20418
+No test result available for 201507-18796
+No test result available for 201507-18795
+No test result available for 201512-20417
+No test result available for 201510-19839
+No test result available for 201506-18545
+No test result available for 201507-18613
+reviewing 201506-18539, base sumission: 113077, review target: 113028
+reviewing 201601-20436, base sumission: 112766, review target: 113042
+camera/multiple-resolution-images
+test status is not the same
+test status is not the same
+test status is not the same
+test status is not the same
+test status is not the same
+test status is not the same
+test status is not the same
+test status is not the same
+test status is not the same
+test status is not the same
+test status is not the same
+test status is not the same
+test status is not the same
+test status is not the same
+suspend/suspend-single-log-check
+----- highlight fwts caused failures, please take a look -----
+============= base result ============
+No errors detected
+============= review candidate =======
+
+
+test status is not the same
+test status is not the same
+===============================================
+potential regression was observed. - 201601-20436
+===============================================
+
+reviewing 201601-20438, base sumission: 112925, review target: 113031
+suspend/suspend-single-log-check
+----- highlight fwts caused failures, please take a look -----
+============= base result ============
+No errors detected
+============= review candidate =======
+Medium failures:
+  s3: 1 failures
+========================================
+    1 suspends took longer than 15.00 seconds. (x 1)
+
+test status is not the same
+===============================================
+potential regression was observed. - 201601-20438
+===============================================
+
+reviewing 201601-20439, base sumission: 112888, review target: 113029
+test_item_no_total is not the same!
+test status is not the same
+test status is not the same
+test status is not the same
+test status is not the same
+test status is not the same
+test status is not the same
+memory/info
+memory/info comment comparison failed but please note the difference may be little.
+test status is not the same
+test status is not the same
+test status is not the same
+test status is not the same
+test status is not the same
+test status is not the same
+test status is not the same
+test status is not the same
+test status is not the same
+suspend/suspend-single-log-check
+----- highlight fwts caused failures, please take a look -----
+============= base result ============
+
+============= review candidate =======
+Medium failures:
+  s3: 1 failures
+========================================
+    1 suspends took longer than 15.00 seconds. (x 1)
+
+test status is not the same
+test status is not the same
+test status is not the same
+===============================================
+potential regression was observed. - 201601-20439
+===============================================
+
+reviewing 201506-18549, base sumission: 112197, review target: 113030
+test_item_no_total is not the same!
+test status is not the same
+suspend/suspend-single-log-check
+Identical fwts error detected and supressed
+test status is not the same
+test status is not the same
+test status is not the same
+test status is not the same
+test status is not the same
+===============================================
+potential regression was observed. - 201506-18549
+===============================================
+
+reviewing 201508-18805, base sumission: 112869, review target: 113076
+test status is not the same
+test status is not the same
+test status is not the same
+test status is not the same
+test status is not the same
+test status is not the same
+test status is not the same
+graphics/screenshot_opencv_validation
+======= highlight opencv failures, please take a look =======
+============= base test ===============
+WARNING: gnome-keyring:: couldn't connect to: /run/user/1001/keyring-Ykqhie/pkcs11: Connection refused
+p11-kit: skipping module 'gnome-keyring' whose initialization failed: An error occurred on the device
+Invalid MIT-MAGIC-COOKIE-1 key
+(test:4418): Gtk-WARNING **: cannot open display: :0
+============= waiting to review =======
+ERROR: video source not found: /dev/external_webcam
+
+test status is not the same
+test status is not the same
+test status is not the same
+test status is not the same
+memory/info
+memory/info comment comparison failed but please note the difference may be little.
+test status is not the same
+test status is not the same
+test status is not the same
+test status is not the same
+test status is not the same
+test status is not the same
+test status is not the same
+test status is not the same
+test status is not the same
+test status is not the same
+test status is not the same
+test status is not the same
+test status is not the same
+test status is not the same
+suspend/suspend-single-log-check
+----- highlight fwts caused failures, please take a look -----
+============= base result ============
+
+============= review candidate =======
+High failures:
+  s3: 7 failures
+========================================
+    HIGH Kernel message: [TIMESTAMP] ACPI Error: Method parse/execution failed [\_TZ_.FN00._OFF] (Node ffff8804700d7f00), AE_NOT_FOUND (20141107/psparse-536) (x 1)
+    HIGH Kernel message: [TIMESTAMP] ACPI Error: Method parse/execution failed [\_TZ_.FNCL] (Node ffff8804701084d8), AE_NOT_FOUND (20141107/psparse-536) (x 1)
+    HIGH Kernel message: [TIMESTAMP] ACPI Error: Method parse/execution failed [\_TZ_.FN03._OFF] (Node ffff8804701082d0), AE_NOT_FOUND (20141107/psparse-536) (x 1)
+    HIGH Kernel message: [TIMESTAMP] ACPI Error: [\_SB_.PCI0.LPCB.H_EC.ECAV] Namespace lookup failure, AE_NOT_FOUND (20141107/psargs-359) (x 1)
+    HIGH Kernel message: [TIMESTAMP] ACPI Error: Method parse/execution failed [\_TZ_.FN02._OFF] (Node ffff880470108190), AE_NOT_FOUND (20141107/psparse-536) (x 1)
+    HIGH Kernel message: [TIMESTAMP] ACPI Error: Method parse/execution failed [\_TZ_.FN01._OFF] (Node ffff880470108050), AE_NOT_FOUND (20141107/psparse-536) (x 1)
+    HIGH Kernel message: [TIMESTAMP] ACPI Error: Method parse/execution failed [\_TZ_.FN04._OFF] (Node ffff880470108410), AE_NOT_FOUND (20141107/psparse-536) (x 1)
+
+test status is not the same
+test status is not the same
+test status is not the same
+test status is not the same
+test status is not the same
+test status is not the same
+test status is not the same
+test status is not the same
+wireless/monitor_wireless_connection_udp
+test status is not the same
+test status is not the same
+test status is not the same
+test status is not the same
+test status is not the same
+test status is not the same
+===============================================
+potential regression was observed. - 201508-18805
+===============================================
+
+reviewing 201603-20825, base sumission: 113048, review target: 113065
+suspend/suspend-single-log-check
+----- highlight fwts caused failures, please take a look -----
+============= base result ============
+High failures:
+  s3: 6 failures
+========================================
+    HIGH Kernel message: [TIMESTAMP] ACPI Error: Needed [Buffer/String/Package], found [Integer] ffff880084e45288 (20141107/exresop-590) (x 1)
+    HIGH Kernel message: [TIMESTAMP] ACPI Error: Needed [Buffer/String/Package], found [Integer] ffff880084e45678 (20141107/exresop-590) (x 1)
+    HIGH Kernel message: [TIMESTAMP] ACPI Error: Method parse/execution failed [\_SB_.WMIV.WVPO] (Node ffff8801638a7b40), AE_AML_OPERAND_TYPE (20141107/psparse-536) (x 1)
+    HIGH Kernel message: [TIMESTAMP] ACPI Exception: AE_AML_OPERAND_TYPE, While resolving operands for [OpcodeName unavailable] (20141107/dswexec-461) (x 1)
+    Found 1 differences in device configuation during S3 cycle. (x 1)
+    HIGH Kernel message: [TIMESTAMP] ACPI Error: Method parse/execution failed [\_SB_.WMIV.WMPV] (Node ffff8801638a7b90), AE_AML_OPERAND_TYPE (20141107/psparse-536) (x 1)
+============= review candidate =======
+High failures:
+  s3: 6 failures
+========================================
+    HIGH Kernel message: [TIMESTAMP] ACPI Error: Method parse/execution failed [\_SB_.WMIV.WMPV] (Node ffff8801638a7b90), AE_AML_OPERAND_TYPE (20141107/psparse-536) (x 1)
+    HIGH Kernel message: [TIMESTAMP] ACPI Error: Needed [Buffer/String/Package], found [Integer] ffff8801609aa750 (20141107/exresop-590) (x 1)
+    HIGH Kernel message: [TIMESTAMP] ACPI Error: Method parse/execution failed [\_SB_.WMIV.WVPO] (Node ffff8801638a7b40), AE_AML_OPERAND_TYPE (20141107/psparse-536) (x 1)
+    HIGH Kernel message: [TIMESTAMP] ACPI Exception: AE_AML_OPERAND_TYPE, While resolving operands for [OpcodeName unavailable] (20141107/dswexec-461) (x 1)
+    HIGH Kernel message: [TIMESTAMP] ACPI Error: Needed [Buffer/String/Package], found [Integer] ffff8801609aa360 (20141107/exresop-590) (x 1)
+    Found 1 differences in device configuation during S3 cycle. (x 1)
+
+===============================================
+potential regression was observed. - 201603-20825
+===============================================
+
+
+===============================================
+there may be regressions. Review manually again.
+===============================================

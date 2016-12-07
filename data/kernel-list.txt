@@ -1,0 +1,8 @@
+{
+  "4.2": ["wily", false],
+  "3.19": ["vivid", false],
+  "3.16": ["utopic", false],
+  "3.13": ["trusty", true],
+  "3.2": ["precise", true],
+  "2.6": ["lucid", true]
+}
