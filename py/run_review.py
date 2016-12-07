@@ -124,16 +124,30 @@ class ReviewReport:
 
     def validate_cid_sub(self):
         """
-        validate the data ready to use or not
-        the cid numbers should be the same
-        between self.cid_sub_base and self.cid_sub_review
+        Validate the CID-<submissioin number> dict.
+
+        Validate the data ready to use or not. The cid numbers should be the
+        same between self.cid_sub_base and self.cid_sub_review. Or, in some
+        cases, self.cid_sub_base should includes self.cid_sub_review.
         """
-        pass
+        if len(self.cid_sub_base) < len(self.cid_sub_review):
+            LOGGER.critical("Base submission number does not cover all review targets.")
+            LOGGER.critical("Please check your input, e.g. golden DB.")
+
+        for target_cid in self.cid_sub_review.keys():
+            if target_cid not in self.cid_sub_base.keys():
+                LOGGER.critical("%s base result is not found to review. Check your input or golden DB." % target_cid)
 
     def review(self):
+        """
+        Review all submissions.
+
+        Provide two dict (CID-submission_number). Walk thought the review
+        target one to try to find base submissions for review.
+        """
         # self.cid_sub_review and self.cid_sub_base are dictionaries.
-        for cid in self.cid_sub_review:
-            if cid in self.cid_sub_base:
+        for cid in self.cid_sub_review.keys():
+            if cid in self.cid_sub_base.keys():
                 # remember sub_base and sub_review are
                 # int for submission number
                 sub_base = self.cid_sub_base.get(cid, None)
@@ -143,11 +157,12 @@ class ReviewReport:
                     # then we skip to fetch the data from C3
                     self.review_one_machine(cid, sub_base, sub_review)
             else:
-                LOGGER.warning("missing golden submission or added a new test unit %s" % cid)
+                # In validate_cid_sub this should remind. Remind here again for safety.
+                LOGGER.critical("Missing base submission for %s. Check your DB." % cid)
 
     def review_one_machine(self, cid, sub_base, sub_review):
         """
-        Review the report of one machine.
+        Review the report of one machine (one CID).
 
         Give submission numbers of both of base and the one waiting to review,
         and the CID of the machine. This method will print the review result.
