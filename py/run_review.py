@@ -99,10 +99,8 @@ from collections import OrderedDict
 import alarm
 import alarmtype
 
-DEBUG = False
-DEBUG_VERBOSE = True  # will be overridden by DEBUG
 ARGS = None
-LOGGER = logging.getLogger('my_logger')
+LOGGER = logging.getLogger('sru_review_tool')
 
 class ReviewReport:
 
@@ -145,7 +143,7 @@ class ReviewReport:
                     # then we skip to fetch the data from C3
                     self.review_one_machine(cid, sub_base, sub_review)
             else:
-                print "missing golden submission or added a new test unit %s" % cid
+                LOGGER.warning("missing golden submission or added a new test unit %s" % cid)
 
     def review_one_machine(self, cid, sub_base, sub_review):
         """
@@ -162,7 +160,10 @@ class ReviewReport:
         @type sub_review: integer.
         @return None
         """
-        print "reviewing %s, base sumission: %s, review target: %s" % (cid, sub_base, sub_review)
+        print("============================================================================")
+        print("Reviewing %s" % (cid))
+        print("Base sumission: %s, Review target: %s" % (sub_base, sub_review))
+        print("============================================================================")
         apidata_base = get_apidata_from_c3(cid, sub_base)
         apidata_review = get_apidata_from_c3(cid, sub_review)
         flag_compare_result, entries_potential_regression = compare_two_api_submission(apidata_base, apidata_review, cid)
@@ -173,14 +174,16 @@ class ReviewReport:
             flag_compare_result = alarm.supress_false_alarm(entries_potential_regression, cid, ARGS.reviewkernel, sub_review)
 
         if flag_compare_result:
-            if DEBUG:
-                print "no regression was observed. - %s" % cid
+            LOGGER.debug("no regression was observed. - %s" % cid)
         else:
             self.flag_review_status = False
             print "==============================================="
             print "potential regression was observed. - %s" % cid
             print "==============================================="
             print ""
+        print("============================================================================")
+        print("Reviewing %s - DONE." % (cid))
+        print("============================================================================")
 
     def summarize(self):
         """
@@ -203,8 +206,7 @@ def get_submission(args, submission):
     return submission in json format
     """
     api_uri = args.instance_uri + 'api/v1/testresults/?report=' + submission
-    if DEBUG:
-        print api_uri
+    LOGGER.debug("API URL: %s" % api_uri)
     api_params = {'username': args.username,
                   'api_key': args.apikey,
                   'limit': args.batch_limit}
@@ -306,8 +308,7 @@ def compare_two_api_submission(apidata_base, apidata_review, cid=None):
                     flag_compare_result = False
                     entries_potential_regression.append(alarmtype.STATUS_1)
 
-                if DEBUG and DEBUG_VERBOSE:
-                    print test_name, test_status
+                LOGGER.debug("Job: %s, Status: %s" % (test_name, test_status))
 
     return (flag_compare_result, entries_potential_regression)
 
@@ -338,7 +339,7 @@ def get_cid_to_submission_from_rpt(url):
                 submission = td[3][0].attrib['href'].split('/')[-2]
                 dict_rpt[cid] = submission
             else:
-                print ("No test result available for %s" % cid)
+                LOGGER.info("%s is skipped: No test result of the html report available from the url." % cid)
     return dict_rpt
 
 
@@ -375,13 +376,13 @@ def get_cid_to_submission_from_golden(distkernel, oem=False):
 
 
 def main():
-    logging.basicConfig(level=logging.ERROR)
     parser = argparse.ArgumentParser()
     group = parser.add_mutually_exclusive_group()
     group_cid_reviewkernel = parser.add_mutually_exclusive_group()
     parser.add_argument('--batch_limit', type=int, default=1,
                         help='Number of element in a batch result. \
                         0 for as many as possible')
+    ## URL parser ##
     parser.add_argument('--instance_uri',
                         default="https://certification.canonical.com/",
                         help='Certification site URI. ')
@@ -396,8 +397,11 @@ def main():
     group.add_argument('-g', '--golden',
                        help='review the report based on golden submissions',
                        default=True)
-    group.add_argument('-s', '--single', type=str, nargs=2, help='review a single report by 2 different submissions.')
-    group_cid_reviewkernel.add_argument('-c', '--cid', help='CID, use this together with single')
+    group.add_argument('-s', '--single', type=str, nargs=2,
+                       help='review a single report by 2 different submissions.')
+    ## URL parser - END ##
+    group_cid_reviewkernel.add_argument('-c', '--cid',
+                       help='CID, use this together with single')
     parser.add_argument('-u', '--username', help='User name', required=True)
     parser.add_argument('-k', '--apikey', help='API key', required=True)
     parser.add_argument('-o', '--oem', action='store_true', help='Review OEM reports')
@@ -405,14 +409,22 @@ def main():
     parser.add_argument('-m', '--mode',
                         default='all',
                         help='pass, fail or skipped. Default is all')
-    parser.add_argument("-d", "--debug", help="Set debug mode",
-                        #action='store_const', const=logging.DEBUG,
-                        default=logging.WARNING)
+    parser.add_argument("-v", "--verbose", help="Set verbose mode, -v or -vv",
+                        action='count')
 
+    # transition horrible code for refactoring
     global ARGS
     ARGS = parser.parse_args()
     args = ARGS
 
+    if args.verbose == 1:
+        logging.basicConfig(level=logging.INFO)
+    elif args.verbose == 2:
+        logging.basicConfig(level=logging.DEBUG)
+    else:
+        logging.basicConfig(level=logging.WARNING)
+
+    ######## get the report URL ######
     #kernel_base = "3.2.0-79.115"
     #kernel_review = "3.2.0-80.116"
     kernel_base = args.basekernel
@@ -460,10 +472,12 @@ def main():
         url_submission_base = url_prefix + "/" + kernel_base + "/" + filename_base
 
     url_submission_review = url_prefix + "/" + kernel_review + "/" + filename_review
+    ######## get the report URL - END ######
 
-    if DEBUG:
-        print url_submission_base, url_submission_review
-        print distkernel
+    LOGGER.debug("The base and review target URL:")
+    LOGGER.debug("BASE: %s" % url_submission_base)
+    LOGGER.debug("Review target: %s" % url_submission_review)
+    LOGGER.debug("The distribution kernel of the review target: %s" % distkernel)
 
     if args.single:
         rrpt = ReviewReport(args.single[0], args.single[1], args.cid, single=True) 
