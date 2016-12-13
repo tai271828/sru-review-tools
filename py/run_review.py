@@ -290,7 +290,7 @@ def compare_two_api_submission(apidata_base, apidata_review, cid=None):
                     ##############################################################
                     # This print is the testing entry name you what to know.
                     ##############################################################
-                    LOGGER.warning("The content is diffrent.\n\t%s %s --> %s" % (test_name, test_status, tib['status']))
+                    LOGGER.warning("The content is diffrent.\n\t%s %s --> %s" % (test_name, tib['status'], test_status))
                     entries_potential_regression.append(test_name)
                     #print "%s is not the same" % test_name
                     ##############################################################
