@@ -1,4 +1,5 @@
 {
+  "4.4": ["xenial", true],
   "4.2": ["wily", false],
   "3.19": ["vivid", false],
   "3.16": ["utopic", false],

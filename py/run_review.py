@@ -387,6 +387,9 @@ def get_cid_to_submission_from_golden(distkernel, oem=False):
     """
     dict_rpt = {}
     cs = None
+
+    LOGGER.debug("Get %s from golden DB" % distkernel)
+
     with open("../data/golden-submission.txt", "r") as data_file:
         json_contents = json.load(data_file)
     if distkernel == "vivid":
@@ -397,8 +400,10 @@ def get_cid_to_submission_from_golden(distkernel, oem=False):
         cs = json_contents["trusty-3.13"]
     elif distkernel == "precise":
         cs = json_contents["precise-3.2"]
-    elif oem:
+    elif oem and distkernel == 'trusty':
         cs = json_contents["oem-trusty-3.19"]
+    elif oem and distkernel == 'xenial':
+        cs = json_contents["oem-xenial-4.4"]
     else:
         try:
             cs = json_contents[distkernel]
@@ -461,7 +466,8 @@ def main():
     if args.verbose == 1:
         logging.basicConfig(level=logging.INFO)
     elif args.verbose == 2:
-        logging.basicConfig(level=logging.DEBUG)
+        format_str = "[ %(funcName)s() ] %(message)s"
+        logging.basicConfig(level=logging.DEBUG, format=format_str)
     else:
         logging.basicConfig(level=logging.WARNING)
 
@@ -490,6 +496,9 @@ def main():
         # non-LTS version, kernel number could be mapped with the distro name
         dist = releases.get(kernel_short)[0]
         distkernel = dist
+
+    LOGGER.debug("release is: %s" % dist)
+    LOGGER.debug("release kernel is: %s" % distkernel)
 
     url_host = "http://people.canonical.com/~hwcert/sru-testing/"
 
