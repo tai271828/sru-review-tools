@@ -481,6 +481,7 @@ def main():
     if args.single:
         kernel_review = "3.2.0-80.116" # fake kernel version
     kernel_short = kernel_review.split('.0-')[0]  # e.g. 3.13
+    LOGGER.debug("kernel_short: %s" % kernel_short)
     with open("../data/kernel-list.txt", "r") as kernel_list:
         json_contents = json.load(kernel_list)
     releases = OrderedDict(sorted(json_contents.items(),
@@ -489,8 +490,10 @@ def main():
     # Get the dist / distkernel here
     if '~' in kernel_review:
         idx = releases.keys().index(kernel_short)
+        LOGGER.debug("~ idx: %s" % idx)
         for key in releases.keys()[idx + 1:]:
             if releases.get(key)[1]:
+                LOGGER.debug("key: %s" % key)
                 dist = releases.get(key)[0]
                 distkernel = dist + '-' + kernel_short
                 break
