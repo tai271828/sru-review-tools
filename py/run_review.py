@@ -393,19 +393,21 @@ def get_cid_to_submission_from_golden(distkernel, oem=False):
     with open("../data/golden-submission.txt", "r") as data_file:
         json_contents = json.load(data_file)
     if distkernel == "xenial":
-        cs = json_contents["xenial-4.4"]
+        if oem:
+            cs = json_contents["oem-xenial-4.4"]
+        else:
+            cs = json_contents["xenial-4.4"]
     elif distkernel == "vivid":
         cs = json_contents["vivid-3.19"]
     elif distkernel == "utopic":
         cs = json_contents["utopic-3.16"]
     elif distkernel == "trusty":
-        cs = json_contents["trusty-3.13"]
+        if oem:
+            cs = json_contents["oem-trusty-3.19"]
+        else:
+            cs = json_contents["trusty-3.13"]
     elif distkernel == "precise":
         cs = json_contents["precise-3.2"]
-    elif oem and distkernel == 'trusty':
-        cs = json_contents["oem-trusty-3.19"]
-    elif oem and distkernel == 'xenial':
-        cs = json_contents["oem-xenial-4.4"]
     else:
         try:
             cs = json_contents[distkernel]
