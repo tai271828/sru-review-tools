@@ -473,7 +473,8 @@ def main():
         format_str = "[ %(funcName)s() ] %(message)s"
         logging.basicConfig(level=logging.DEBUG, format=format_str)
     else:
-        logging.basicConfig(level=logging.WARNING)
+        format_str = "[ %(levelname)s ] %(message)s"
+        logging.basicConfig(level=logging.WARNING, format=format_str)
 
     ######## get the report URL ######
     #kernel_base = "3.2.0-79.115"
