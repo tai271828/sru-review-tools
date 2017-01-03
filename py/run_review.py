@@ -397,6 +397,8 @@ def get_cid_to_submission_from_golden(distkernel, oem=False):
             cs = json_contents["oem-xenial-4.4"]
         else:
             cs = json_contents["xenial-4.4"]
+    elif distkernel == "yakkety":
+        cs = json_contents["yakkety-4.8"]
     elif distkernel == "vivid":
         cs = json_contents["vivid-3.19"]
     elif distkernel == "utopic":
