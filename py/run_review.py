@@ -398,7 +398,12 @@ def get_cid_to_submission_from_golden(distkernel, oem=False):
         else:
             cs = json_contents["xenial-4.4"]
     elif distkernel == "yakkety":
-        cs = json_contents["yakkety-4.8"]
+        if oem:
+            # workaround for HEW Edge
+            # remove me after the HWE Edge support ends
+            cs = json_contents["xenial-4.8"]
+        else:
+            cs = json_contents["yakkety-4.8"]
     elif distkernel == "vivid":
         cs = json_contents["vivid-3.19"]
     elif distkernel == "utopic":
@@ -532,6 +537,10 @@ def main():
         url_submission_base = url_prefix + "/" + kernel_base + "/" + filename_base
 
     url_submission_review = url_prefix + "/" + kernel_review + "/" + filename_review
+    if distkernel == 'xenial-4.8' and args.oem:
+        # FIXME: workaround for HWE Edge
+        # remove me after the HWE Edge support ends
+        url_submission_review = url_host + "hweedge/" + kernel_review + "/" + 'hweedge-yakkety-proposed.html'
     ######## get the report URL - END ######
 
     LOGGER.debug("The base and review target URL:")
