@@ -403,11 +403,11 @@ def get_cid_to_submission_from_golden(distkernel, oem=False):
         cs = json_contents["vivid-3.19"]
     elif distkernel == "utopic":
         cs = json_contents["utopic-3.16"]
-    elif distkernel == "trusty":
+    elif distkernel == "trusty-3.19":
         if oem:
             cs = json_contents["oem-trusty-3.19"]
         else:
-            cs = json_contents["trusty-3.13"]
+            cs = json_contents["trusty-3.19"]
     elif distkernel == "precise":
         cs = json_contents["precise-3.2"]
     else:
