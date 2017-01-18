@@ -384,26 +384,35 @@ def get_cid_to_submission_from_golden(distkernel, oem=False):
     Return CID-<submission number> dict from the golden DB.
 
     This is a special case from get_cid_to_submission_from_rpt.
+
+    :param distkernel: the kernel of the distribution, e.g. "trusty" or "trusty-3.19"
+    :param oem: a flag to prompt this kernel is used for OEM or not.
     """
     dict_rpt = {}
+    # data structure to contain cid - submission from json data
     cs = None
 
     LOGGER.debug("Try to get %s from golden DB" % distkernel)
 
     with open("../data/golden-submission.txt", "r") as data_file:
         json_contents = json.load(data_file)
-    if distkernel == "xenial":
-        if oem:
-            cs = json_contents["oem-xenial-4.4"]
-        else:
-            cs = json_contents["xenial-4.4"]
-    elif distkernel == "yakkety":
+
+    # try to associated distribution kernel and the kernels of golden DB.
+    # two cases need to handle:
+    #   1. point releases
+    #   2. stock and OEM images
+    if distkernel == "yakkety":
         if oem:
             # workaround for HEW Edge
             # remove me after the HWE Edge support ends
             cs = json_contents["xenial-4.8"]
         else:
             cs = json_contents["yakkety-4.8"]
+    elif distkernel == "xenial":
+        if oem:
+            cs = json_contents["oem-xenial-4.4"]
+        else:
+            cs = json_contents["xenial-4.4"]
     elif distkernel == "vivid":
         cs = json_contents["vivid-3.19"]
     elif distkernel == "utopic":
@@ -423,6 +432,7 @@ def get_cid_to_submission_from_golden(distkernel, oem=False):
         except:
             LOGGER.critical("No such kernel available in golden DB: %s" % distkernel)
             sys.exit(1)
+
     for cid in cs:
         # TODO:
         # cs[cid][0] return string
