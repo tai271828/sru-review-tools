@@ -388,7 +388,7 @@ def get_cid_to_submission_from_golden(distkernel, oem=False):
     dict_rpt = {}
     cs = None
 
-    LOGGER.debug("Get %s from golden DB" % distkernel)
+    LOGGER.debug("Try to get %s from golden DB" % distkernel)
 
     with open("../data/golden-submission.txt", "r") as data_file:
         json_contents = json.load(data_file)
@@ -413,6 +413,8 @@ def get_cid_to_submission_from_golden(distkernel, oem=False):
             cs = json_contents["oem-trusty-3.19"]
         else:
             cs = json_contents["trusty-3.19"]
+    elif distkernel == "trusty":
+        cs = json_contents["trusty-3.13"]
     elif distkernel == "precise":
         cs = json_contents["precise-3.2"]
     else:
