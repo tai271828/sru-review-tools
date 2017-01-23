@@ -28,6 +28,29 @@ class Command(metaclass=CommandMeta):
     """
     base class for a real command class.
     """
+
+    def __init__(self):
+        import argparse
+
+        parser = argparse.ArgumentParser()
+        parser.add_argument_group('Global', 'Global argument parser')
+
+        self.parser = parser
+        self._opargs = None
+
+    @property
+    def opargs(self):
+        if not self._opargs:
+            args = self.parser.parse_args()
+            narg = len(args)
+            if narg >= 1:
+                args = args[1:]
+            else:
+                args = []
+            self_opargs = args
+
+        return self._opargs
+
     def __call__(self):
         raise NotImplementedError
 
